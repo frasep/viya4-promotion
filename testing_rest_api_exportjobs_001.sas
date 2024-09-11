@@ -1,16 +1,23 @@
 %let BASE_URL = %sysfunc(getoption(servicesbaseurl));
-
 %put &BASE_URL;
+%let pkg_location = /create-export/create/homes/Sebastien.Poussart@sas.com/;
 
 %macro transfer_export(objectURI,pkgName);
+
+	/* Create export job */
+	%let pkg_full_name=&pkg_location.&pkgName..json;
+
+	%put "&pkg_full_name";
+
 	FILENAME json_in temp ENCODING='UTF-8' ;
 	FILENAME resp temp ENCODING='UTF-8' ;
+	FILENAME json_PKG "&pkg_full_name" ENCODING='UTF-8' ;
 
 	data _null_;
 		file json_in;
 		put '{'/
-		  '"name" : "'&pkgName.'",'/
-		  '"items": ["'&objectURI.'"],'/
+		  '"name" : "'"&pkgName."'",'/
+		  '"items": ["'"&objectURI."'"],'/
 		  '"options": {"includeDependencies":true}'/
 		  '}';
 	run;
@@ -22,37 +29,61 @@
 			"Accept"="application/json"
 			"Content-type"="application/vnd.sas.transfer.export.request+json";
 		debug level=3;
+	run;
 
+	LIBNAME resp clear;
+	LIBNAME resp json;
+	
+	proc sql noprint;
+	  select id into :job_id trimmed from resp.root;
+	quit;
+
+	%put &job_id;
+
+	/* Wait until the job is completed */
+
+	%wait_transfer_exportjob(&job_id, sleep=1, maxloop=120);
+
+	/* Get the resulting export package URI */
+
+	proc http method='GET' url="&BASE_URL/transfer/exportJobs/71a72065-3e28-49ed-9af9-e13fd649d2ea" oauth_bearer=sas_services out=resp;
+	  headers
+	    "Accept" = "application/json";
+	  debug level=0;
+	run;
+	LIBNAME resp clear;
+	LIBNAME resp json;
+
+	proc sql noprint;
+	  select packageUri into :pkg_uri trimmed from resp.root;
+	quit;
+	
+	%put &pkg_uri;
+
+	/* Download the resulting export package */
+
+	proc http method='GET' url="&BASE_URL/&pkg_uri" oauth_bearer=sas_services out=json_PKG;
+	  headers
+	    "Accept" = "application/vnd.sas.transfer.package+json"
+    	"Accept-encoding" = "gzip, deflate, br, zstd";
+	  debug level=0;
+	run;
+
+	/* Delete the remaining export package from the sas content */
+	
 %mend;
 
-
-%transfer_export("/reports/reports/6b879807-19cd-4f27-bedc-17ce615fa9d9","PackageTest001");
-
 /* Macro to wait for an export job to be completed using REST API (tested on 2024.08) */
-%macro wait_transfer_exportjob(
-  jobid=
-  , sleep=1
-  , maxloop=120
-);
+%macro wait_transfer_exportjob(jobid, sleep=1, maxloop=120);
 %local jobStatus i;
 
 %do i = 1 %to &maxLoop;
-  filename jobrc temp;
-  proc http
-    method='GET' 
-    url="&BASE_URI//transfer/exportJobs/&jobid/state"
-    oauth_bearer=sas_services
-  
-    out=jobrc
-    verbose
-    ;
+  filename jobrc temp  ENCODING='UTF-8';
+  proc http method='GET' url="&BASE_URL/transfer/exportJobs/&jobid/state" oauth_bearer=sas_services out=jobrc verbose;
     headers
-      "Accept" = "text/plain"
-    ;
-    debug level=3;
+      "Accept" = "text/plain";
+    debug level=0;
   run;
-  %put NOTE: &=SYS_PROCHTTP_STATUS_CODE;
-  %put NOTE: &=SYS_PROCHTTP_STATUS_PHRASE;
   
   %put NOTE: response check job status;
   data _null_;
@@ -67,7 +98,7 @@
       end;  
       call symputx("jobstatus", line);
   run;
-   %put Dbg: &=jobstatus;
+  %put Dbg: &=jobstatus;
   filename jobrc clear;
   %if &jobstatus = completed %then %do;
     %put NOTE: &sysmacroname &=jobid &=jobStatus;
@@ -79,61 +110,5 @@
   %end;
 %end;
 %mend wait_transfer_exportjob;
-%wait_transfer_exportjob(jobid=&jobid, sleep=1, maxloop=500)/*DBG 500*/;
 
-
-
-/* Macro to launch an export of a given SAS Content object URI */
-/* https://create.demo.sas.com/transfer/exportJobs */
-/*
-{
-	"name":"Package_test",
-	"items":["/reports/reports/6b879807-19cd-4f27-bedc-17ce615fa9d9"],
-	"options": {"includeRules":true,"includeDependencies":true}
-}
-*/
-
-
-
-
-
-* payload
-
-/* POST 
-https://create.demo.sas.com/transfer/exportJobs
-
-content-type:
-application/vnd.sas.transfer.export.job+json
-
-
-{
-	"name":"Package_test",
-	"items":["/reports/reports/6b879807-19cd-4f27-bedc-17ce615fa9d9"],
-	"options": {"includeRules":true,"includeDependencies":true}
-}
-
-*/
-
-
-
-/*
-Wait for state to be completed
-
-completed value
-
-https://create.demo.sas.com/transfer/exportJobs/463dab53-314f-45a2-8477-fe08a154418a/state
-*/
-
-
-/* get the json package 
-
-GET
-
-https://create.demo.sas.com/transfer/packages/a3ca2059-ad19-4f96-afce-f1961c3de569
-
-content-type:
-application/json
-
-
-
-*/
+%transfer_export(/reports/reports/6b879807-19cd-4f27-bedc-17ce615fa9d9,PackageTest001);
