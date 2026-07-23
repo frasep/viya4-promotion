@@ -1,0 +1,35 @@
+NOTE: Option OBS changed to 100.
+NOTE: DATA _null_
+
+
+NOTE: Wrote _null_ (0 rows, 0 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: input="/Public/Reports/Sales" -> targetPathJSON={"items": ["Public","Reports","Sales"], "contentType": "folder"}
+NOTE: DATA _null_
+
+
+NOTE: Wrote _null_ (0 rows, 0 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: input="/create-export/create/homes" -> targetPathJSON={"items": ["create-export","create","homes"], "contentType": "folder"}
+NOTE: DATA _null_
+
+
+NOTE: Wrote _null_ (0 rows, 0 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: input="/gelcontent/GEL/Reports" -> targetPathJSON={"items": ["gelcontent","GEL","Reports"], "contentType": "folder"}
+NOTE: DATA path_json
+
+
+NOTE: Wrote path_json (3 rows, 2 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC PRINT data=path_json
+
+NOTE: PROC PRINT completed: 3 observations printed, 2 variables

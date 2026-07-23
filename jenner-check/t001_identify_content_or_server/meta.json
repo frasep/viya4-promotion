@@ -1,0 +1,7 @@
+{
+  "bundle": "t001_identify_content_or_server",
+  "source_file": "ExportViyaContentObject.step (templates.SAS) / ImportViyaContent.step",
+  "source_blob_sha": "fa9475afa13cdd645c4f4073574b97a0c754a5b6",
+  "source_commit": "6b5529acbc70140d0e50391bb72ee5345bd86d92",
+  "notes": "Repo's %_identify_content_or_server macro, copied verbatim from the SAS Studio custom step. It classifies a path by scheme prefix via SCAN(...,1,\":\",\"MO\") in a DATA step + CALL SYMPUT. Original relies on no Viya services, so it runs stand-alone; a small caller drives it over three mock path references (sascontent:, sasserver:, and a bare path)."
+}

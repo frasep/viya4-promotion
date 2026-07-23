@@ -1,0 +1,14 @@
+{
+  "_captured_at": "2026-07-23T14:26:00Z",
+  "_captured_run_id": "r_c87428e13dd04a10a5308e6353ea1c87",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: input=sascontent:/Public/Reports/Sales -> _path_identifier=sascontent",
+    "NOTE: input=sasserver:/opt/sas/viya/config/data/exports -> _path_identifier=sasserver",
+    "NOTE: Wrote path_classes (3 rows, 2 columns).",
+    "NOTE: PROC PRINT completed: 3 observations printed, 2 variables"
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}

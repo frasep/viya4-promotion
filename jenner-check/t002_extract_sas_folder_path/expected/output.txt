@@ -1,0 +1,6 @@
+
+                              pathReference      scheme                         folderPath
+-------------------------------------------  ----------  ---------------------------------
+sascontent:/Public/Reports/Sales             sascontent  /Public/Reports/Sales
+sasserver:/opt/sas/viya/config/data/exports  sasserver   /opt/sas/viya/config/data/exports
+sascontent:/create-export/create/homes       sascontent  /create-export/create/homes

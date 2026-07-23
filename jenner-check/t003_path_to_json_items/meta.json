@@ -1,0 +1,7 @@
+{
+  "bundle": "t003_path_to_json_items",
+  "source_file": "ExportViyaContentObject.step (templates.SAS) / ImportViyaContent.step, _obtain_sas_content_folder_uri",
+  "source_blob_sha": "fa9475afa13cdd645c4f4073574b97a0c754a5b6",
+  "source_commit": "6b5529acbc70140d0e50391bb72ee5345bd86d92",
+  "notes": "The folder-path -> JSON-items string transformation from _obtain_sas_content_folder_uri, verbatim. Nested transtrn/strip idiom: transtrn(path,'/','   ') then strip then transtrn('   ','\",\"') turns /Public/Reports/Sales into {\"items\": [\"Public\",\"Reports\",\"Sales\"], ...}. The Viya POST that consumes this body is excluded; the pure string builder runs stand-alone via a wrapper macro over three mock paths."
+}

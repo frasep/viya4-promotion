@@ -1,0 +1,6 @@
+
+                 folderPath                                                               itemsJSON
+---------------------------  ----------------------------------------------------------------------
+/Public/Reports/Sales        {"items": ["Public","Reports","Sales"], "contentType": "folder"}
+/create-export/create/homes  {"items": ["create-export","create","homes"], "contentType": "folder"}
+/gelcontent/GEL/Reports      {"items": ["gelcontent","GEL","Reports"], "contentType": "folder"}

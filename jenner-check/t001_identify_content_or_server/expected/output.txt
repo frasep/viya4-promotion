@@ -1,0 +1,6 @@
+
+                                        pathReference                            scheme
+-----------------------------------------------------  --------------------------------
+sascontent:/Public/Reports/Sales                       sascontent
+sasserver:/opt/sas/viya/config/data/exports            sasserver
+/reports/reports/6b879807-19cd-4f27-bedc-17ce615fa9d9  /reports/reports/6b879807-19cd-4
