@@ -1,0 +1,14 @@
+{
+  "_captured_at": "2026-07-23T14:29:00Z",
+  "_captured_run_id": "r_4dcfade198ef4acfba89dac6cff31c16",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: input=\"/Public/Reports/Sales\" -> targetPathJSON={\"items\": [\"Public\",\"Reports\",\"Sales\"], \"contentType\": \"folder\"}",
+    "NOTE: input=\"/create-export/create/homes\" -> targetPathJSON={\"items\": [\"create-export\",\"create\",\"homes\"], \"contentType\": \"folder\"}",
+    "NOTE: Wrote path_json (3 rows, 2 columns).",
+    "NOTE: PROC PRINT completed: 3 observations printed, 2 variables"
+  ],
+  "log_does_not_contain": ["ERROR:", "[JENNER-ERROR"],
+  "diagnostics": {"parse_warnings": [], "runtime_warnings": []}
+}

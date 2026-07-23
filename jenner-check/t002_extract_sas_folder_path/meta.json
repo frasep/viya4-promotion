@@ -1,0 +1,7 @@
+{
+  "bundle": "t002_extract_sas_folder_path",
+  "source_file": "ExportViyaContentObject.step (templates.SAS) / ImportViyaContent.step",
+  "source_blob_sha": "fa9475afa13cdd645c4f4073574b97a0c754a5b6",
+  "source_commit": "6b5529acbc70140d0e50391bb72ee5345bd86d92",
+  "notes": "Repo's %_extract_sas_folder_path macro, copied verbatim from the SAS Studio custom step. Strips the scheme prefix and returns the folder path via SCAN(...,2,\":\",\"MO\") in a DATA step + CALL SYMPUT. Pairs with %_identify_content_or_server (element 1). Runs stand-alone; a small caller drives it over three mock path references."
+}
